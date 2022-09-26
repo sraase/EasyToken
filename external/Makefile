@@ -151,8 +151,8 @@ $(ARCH_GMP_TARGETS): %/$(SYSROOT)/lib/libgmp.la: \
 # nettle (out of tree build)
 #####################################################################
 
-NETTLE_TAR := $(DISTDIR)/nettle-2.7.1.tar.gz
-NETTLE_SHA1 := e7477df5f66e650c4c4738ec8e01c2efdb5d1211
+NETTLE_TAR := $(DISTDIR)/nettle-3.8.1.tar.gz
+NETTLE_SHA1 := 1be40366f8db2d5bb65e45883d6d76a96b39eb73
 
 $(NETTLE_TAR):
 	mkdir -p $(DISTDIR)
