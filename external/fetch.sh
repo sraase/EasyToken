@@ -17,8 +17,8 @@
 
 set -e
 
-libxml2_MIRROR_0=ftp://xmlsoft.org/libxml2
-libxml2_MIRROR_1=ftp://gd.tuwien.ac.at/pub/libxml
+libxml2_MIRROR_0=http://xmlsoft.org/download
+libxml2_MIRROR_1=http://sources.buildroot.net/libxml2
 libxml2_MIRROR_2=http://distfiles.macports.org/libxml2
 
 gmp_MIRROR_0=http://ftp.gnu.org/gnu/gmp
@@ -29,7 +29,7 @@ gmp_MIRROR_3=http://www.mirrorservice.org/sites/ftp.gnu.org/gnu/gmp
 nettle_MIRROR_0=http://www.lysator.liu.se/~nisse/archive
 nettle_MIRROR_1=http://mirror.anl.gov/pub/gnu/nettle
 nettle_MIRROR_2=http://ftp.gnu.org/gnu/nettle
-nettle_MIRROR_3=http://gd.tuwien.ac.at/gnu/gnusrc/nettle
+nettle_MIRROR_3=http://sources.buildroot.net/nettle
 
 MAX_TRIES=5
 
