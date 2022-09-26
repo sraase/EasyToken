@@ -1,5 +1,5 @@
-Easy Token
-==========
+Easy Token (non-official)
+=========================
 
 Easy Token is an RSA SecurID-compatible software authenticator for Android
 with advanced usability features:
@@ -9,22 +9,15 @@ without navigating to an app.
 * Optionally save your PIN.
 * Supports SDTID files, importing http://127.0.0.1/... tokens from email,
 and QR tokens.
-* 100% open source: https://github.com/cernekee/EasyToken
+* 100% open source
 
 ## Downloads
 
-Official releases are posted in the
-[XDA thread](http://forum.xda-developers.com/android/apps-games/app-easy-token-source-securid-token-t2805507)
-and on
-[Google Play](https://play.google.com/store/apps/details?id=app.easytoken).
-
-No registration is required to download from XDA.
+This version does not provide official binaries.
 
 ## Support
 
-To report issues, please email the author at
-[cernekee@gmail.com](mailto:cernekee@gmail.com) or post in the
-[XDA thread](http://forum.xda-developers.com/android/apps-games/app-easy-token-source-securid-token-t2805507).
+Please file issues using the Issues tab.
 
 ## Screenshots
 
@@ -38,7 +31,7 @@ To report issues, please email the author at
 
 On the host side you'll need to install:
 
-* NDK r10d, nominally under /opt/android-ndk-r10d
+* NDK r25b, nominally under /opt/android-ndk-r25b
 * Host-side gcc, make, etc. (Red Hat "Development Tools" group or Debian build-essential)
 * git, autoconf, automake, and libtool
 * Android SDK in your $PATH (both platform-tools/ and tools/ directories)
@@ -47,20 +40,18 @@ On the host side you'll need to install:
 
 First, clone the source trees:
 
-    git clone git://github.com/cernekee/EasyToken
+    git clone git://github.com/sraase/EasyToken
     cd EasyToken
     git submodule update --init
 
 Then build the binary components (libs/ directory):
 
-    make -C external NDK=/opt/android-ndk-r10d
+    make -C external NDK=/opt/android-ndk-r25b
 
 Then build the Java components:
 
     android update project -p .
     ant debug
-
-Build logs can be found on this project's [Travis CI page](https://travis-ci.org/cernekee/EasyToken).
 
 ## Security considerations
 
