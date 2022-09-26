@@ -123,8 +123,8 @@ $(ARCH_LIBXML2_TARGETS): %/$(SYSROOT)/lib/libxml2.la: \
 # libgmp (out of tree build)
 #####################################################################
 
-GMP_TAR := $(DISTDIR)/gmp-5.1.3.tar.bz2
-GMP_SHA1 := b35928e2927b272711fdfbf71b7cfd5f86a6b165
+GMP_TAR := $(DISTDIR)/gmp-6.2.1.tar.bz2
+GMP_SHA1 := 2dcf34d4a432dbe6cce1475a835d20fe44f75822
 
 $(GMP_TAR):
 	mkdir -p $(DISTDIR)
