@@ -1,5 +1,5 @@
 #
-# external/Makefile: Cross-compile libstoken.so for {arm,x86,mips}
+# external/Makefile: Cross-compile libstoken.so for {arm,arm64,x86,x64}
 #
 # This file is part of Easy Token
 # Copyright (c) 2014, Kevin Cernekee <cernekee@gmail.com>
@@ -17,31 +17,49 @@
 # GNU General Public License for more details.
 #
 
-NDK := /opt/android-ndk-r10d
+NDK ?= /opt/android-ndk-r25b
+HOST_TAG ?= linux-x86_64
+API ?= 21
 
 TOPDIR := $(shell pwd)
 LIBS := $(TOPDIR)/../libs
 DISTDIR := $(TOPDIR)/dist
+TOOLCHAIN := $(NDK)/toolchains/llvm/prebuilt/$(HOST_TAG)
 
-ARCH_LIST := arm x86 mips
+ARCH_LIST := arm arm64 x86 x64
 
-NDK_ARCH_arm := armeabi
-TRIPLET_arm := arm-linux-androideabi
+NDK_ARCH_arm := armeabi-v7a
+TRIPLET_arm := armv7a-linux-androideabi
 CFLAGS_arm := -mthumb -Os
+
+NDK_ARCH_arm64 := arm64-v8a
+TRIPLET_arm64 := aarch64-linux-android
+CFLAGS_arm64 := -Os
 
 NDK_ARCH_x86 := x86
 TRIPLET_x86 := i686-linux-android
 CFLAGS_x86 := -Os
 
-NDK_ARCH_mips := mips
-TRIPLET_mips := mipsel-linux-android
-CFLAGS_mips := -Os
+NDK_ARCH_x64 := x86-64
+TRIPLET_x64 := x86_64-linux-android
+CFLAGS_x64 := -Os
 
 SYSROOT := toolchain/sysroot/usr
 
-set_vars = PATH=$(TOPDIR)/$1/toolchain/bin:$$PATH \
+set_vars = \
+	AR=$(TOOLCHAIN)/bin/llvm-ar \
+	CC=$(TOOLCHAIN)/bin/$(TRIPLET_$1)$(API)-clang \
+	CXX=$(TOOLCHAIN)/bin/$(TRIPLET_$1)$(API)-clang++ \
+	AS=$(CC) \
+	LD=$(TOOLCHAIN)/bin/ld \
+	LINK=$(TOOLCHAIN)/bin/llvm-link \
+	NM=$(TOOLCHAIN)/bin/llvm-nm \
+	OBJDUMP=$(TOOLCHAIN)/bin/llvm-objdump \
+	RANLIB=$(TOOLCHAIN)/bin/llvm-ranlib \
+	STRIP=$(TOOLCHAIN)/bin/llvm-strip \
 	PKG_CONFIG_LIBDIR=$(TOPDIR)/$1/$(SYSROOT)/lib/pkgconfig \
-	CFLAGS="$(CFLAGS_$1)"
+	CFLAGS="$(CFLAGS_$1) -I$(TOPDIR)/$1/$(SYSROOT)/include" \
+	LDFLAGS="-L$(TOPDIR)/$1/$(SYSROOT)/lib"
 do_make = $(call set_vars,$1) $(MAKE)
 
 FETCH := $(TOPDIR)/fetch.sh
@@ -64,24 +82,6 @@ distclean: clean
 	rm -rf dist nettle gmp libxml2
 
 #####################################################################
-# Toolchain
-#
-# (The fallback logic is because NDK versions <= r8e can fail after
-# trying to use 32-bit binaries on a 64-bit NDK installation.)
-#
-#####################################################################
-
-$(ARCH_TOOLCHAIN_TARGETS): %/.toolchain-built:
-	mkdir -p $*/toolchain
-	bash $(NDK)/build/tools/make-standalone-toolchain.sh \
-		--platform=android-14 \
-		--arch=$* --install-dir=$*/toolchain || \
-	bash $(NDK)/build/tools/make-standalone-toolchain.sh \
-		--platform=android-14 --system=linux-x86_64 \
-		--arch=$* --install-dir=$*/toolchain
-	touch $@
-
-#####################################################################
 # libxml2 (out of tree build)
 #####################################################################
 
@@ -99,9 +99,9 @@ libxml2/configure: $(LIBXML2_TAR)
 	touch $@
 
 $(ARCH_LIBXML2_TARGETS): %/$(SYSROOT)/lib/libxml2.la: \
-		%/.toolchain-built libxml2/configure
+		libxml2/configure
 	rm -rf $*/libxml2
-	mkdir $*/libxml2
+	mkdir -p $*/libxml2
 	cd $*/libxml2 && $(call set_vars,$*) $(TOPDIR)/libxml2/configure \
 		--prefix=$(TOPDIR)/$*/$(SYSROOT) --host=$(TRIPLET_$*) \
 		--disable-shared --enable-static \
@@ -137,9 +137,9 @@ gmp/configure: $(GMP_TAR)
 	touch $@
 
 $(ARCH_GMP_TARGETS): %/$(SYSROOT)/lib/libgmp.la: \
-		%/.toolchain-built gmp/configure
+		gmp/configure
 	rm -rf $*/gmp
-	mkdir $*/gmp
+	mkdir -p $*/gmp
 	cd $*/gmp && $(call set_vars,$*) $(TOPDIR)/gmp/configure \
 		--prefix=$(TOPDIR)/$*/$(SYSROOT) --host=$(TRIPLET_$*) \
 		--disable-assembly \
@@ -165,10 +165,10 @@ nettle/configure: $(NETTLE_TAR)
 	touch $@
 
 $(ARCH_NETTLE_TARGETS): %/$(SYSROOT)/lib/libnettle.a: \
-		%/.toolchain-built nettle/configure \
+		nettle/configure \
 		%/$(SYSROOT)/lib/libgmp.la
 	rm -rf $*/nettle
-	mkdir $*/nettle
+	mkdir -p $*/nettle
 	cd $*/nettle && $(call set_vars,$*) $(TOPDIR)/nettle/configure \
 		--prefix=$(TOPDIR)/$*/$(SYSROOT) --host=$(TRIPLET_$*) \
 		--disable-assembler \
@@ -184,10 +184,10 @@ stoken/configure:
 	cd stoken && bash autogen.sh
 
 $(ARCH_STOKEN_TARGETS): %/libstoken.so: \
-		%/.toolchain-built stoken/configure \
+		stoken/configure \
 		%/$(SYSROOT)/lib/libnettle.a %/$(SYSROOT)/lib/libxml2.la
 	rm -rf $*/stoken
-	mkdir $*/stoken
+	mkdir -p $*/stoken
 	cd $*/stoken && $(call set_vars,$*) $(TOPDIR)/stoken/configure \
 		--prefix=/usr --host=$(TRIPLET_$*) \
 		--without-gtk --with-java=$(TOPDIR)/$*/$(SYSROOT)/include \
@@ -197,8 +197,7 @@ $(ARCH_STOKEN_TARGETS): %/libstoken.so: \
 	cp $*/usr/lib/libstoken.so $@.tmp
 	mkdir -p $(LIBS)/$(NDK_ARCH_$*)
 	cp $@.tmp $(LIBS)/$(NDK_ARCH_$*)/libstoken.so
-	$(TOPDIR)/$*/toolchain/bin/$(TRIPLET_$*)-strip \
-		$(LIBS)/$(NDK_ARCH_$*)/libstoken.so
+	$(TOOLCHAIN)/bin/llvm-strip $(LIBS)/$(NDK_ARCH_$*)/libstoken.so
 	mv $@.tmp $@
 
 stoken-wrapper.jar:
