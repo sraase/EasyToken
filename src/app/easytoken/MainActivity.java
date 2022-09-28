@@ -114,16 +114,7 @@ public class MainActivity extends Activity
 	}
 
 	private void sendProblemReport() {
-		ACRAConfiguration cfg = ACRA.getConfig();
-		cfg.setResDialogText(R.string.problem_dialog_text);
-		cfg.setResDialogCommentPrompt(R.string.problem_dialog_comment_prompt);
-		ACRA.setConfig(cfg);
-		ACRA.getErrorReporter().handleException(null);
-
-		// FIXME: we really want to restore the default strings after the report dialog
-		// is finished, but changing them here would override the problem_dialog_* strings
-		// set above.
-		//ACRA.setConfig(ACRA.getNewDefaultConfig((Application)getApplicationContext()));
+		Log.w("EasyToken", "Sending problem report not implemented.");
 	}
 
 	@Override
