@@ -4,7 +4,9 @@ gmp/
 nettle/
 
 arm/
+arm64/
 x86/
+x64/
 mips/
 
 stoken-wrapper.jar

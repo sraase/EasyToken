@@ -22,7 +22,7 @@ HOST_TAG ?= linux-x86_64
 API ?= 21
 
 TOPDIR := $(shell pwd)
-LIBS := $(TOPDIR)/../libs
+LIBS := $(TOPDIR)/../app/src/main/jniLibs
 DISTDIR := $(TOPDIR)/dist
 TOOLCHAIN := $(NDK)/toolchains/llvm/prebuilt/$(HOST_TAG)
 
