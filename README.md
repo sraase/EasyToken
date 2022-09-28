@@ -40,7 +40,7 @@ On the host side you'll need to install:
 
 First, clone the source trees:
 
-    git clone git://github.com/sraase/EasyToken
+    git clone https://github.com/sraase/EasyToken
     cd EasyToken
     git submodule update --init
 
