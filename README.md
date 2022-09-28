@@ -31,12 +31,10 @@ Please file issues using the Issues tab.
 
 On the host side you'll need to install:
 
-* NDK r25b, nominally under /opt/android-ndk-r25b
+* Android SDK 33 (use Android Studio to install)
+* Android NDK r25b, nominally under /opt/android-ndk-r25b
 * Host-side gcc, make, etc. (Red Hat "Development Tools" group or Debian build-essential)
 * git, autoconf, automake, and libtool
-* Android SDK in your $PATH (both platform-tools/ and tools/ directories)
-* javac 1.6 and a recent version of Apache ant
-* Use the Android SDK Manager to install API 19
 
 First, clone the source trees:
 
@@ -44,14 +42,19 @@ First, clone the source trees:
     cd EasyToken
     git submodule update --init
 
-Then build the binary components (libs/ directory):
+Then build the binary components (app/src/main/jniLibs/ directory):
 
     make -C external NDK=/opt/android-ndk-r25b
 
-Then build the Java components:
+Create the local.properties file to point at the Android SDK
+folder (which contains the tools/ and platform-tools/ folders):
 
-    android update project -p .
-    ant debug
+    echo "sdk.dir=/path/to/android/sdk" > local.properties
+
+Then build and install the actual application:
+
+    ./gradlew assemble
+    adb install app/build/outputs/apk/debug/app-debug.apk
 
 ## Security considerations
 
