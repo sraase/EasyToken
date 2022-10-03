@@ -9,8 +9,8 @@ android {
         applicationId "app.easytoken"
         minSdk 21
         targetSdk 24
-        versionCode 919
-        versionName "0.91"
+        versionCode 921
+        versionName "0.92-sra"
     }
 
     buildTypes {

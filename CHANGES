@@ -1,3 +1,28 @@
+v0.92-sra - 2022/10/03
+
+- Note: This is a non-official fork with limited testing.
+
+- Update native dependencies (libxml2: 2.9.12, gmp: 6.2.1,
+  nettle: 3.8.1, stoken: 0.92) and mirror addresses.
+
+- Migrate build system to Android Studio / gradle as the
+  old system is no longer working. Use newer NDK to build
+  native components as well.
+
+- Set minSdk 21 (Android 5.0) and targetSdk 24 (Android 7.0)
+  to avoid a compatibility warning on newer devices. Also fixes
+  a black bar shown on some devices.
+
+- Remove crash reporting to the original project.
+
+- Replace the file selector with Android DocumentProvider
+  functionality and remove the READ_EXTERNAL_STORAGE permission.
+
+- Fix token import from the file manager.
+
+- Update references and links to point to the new repository.
+
+
 v0.91 - 2014/12/20
 
  - Use more specific MIME type matches so that Easy Token associations don't
