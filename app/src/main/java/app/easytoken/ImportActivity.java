@@ -34,8 +34,6 @@ import android.os.Environment;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import de.blinkt.openvpn.FileSelect;
-
 public class ImportActivity extends Activity
 		implements ImportMethodFragment.OnImportMethodSelectedListener,
 		           ImportManualEntryFragment.OnManualEntryDoneListener,
@@ -343,9 +341,9 @@ public class ImportActivity extends Activity
 
 			mDialog = ii.initiateScan(formats);
 		} else if (method.equals("browse")) {
-			Intent i = new Intent(this, FileSelect.class);
-			i.putExtra(FileSelect.START_DATA, Environment.getExternalStorageDirectory().getPath());
-			i.putExtra(FileSelect.NO_INLINE_SELECTION, true);
+			Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+			i.addCategory(Intent.CATEGORY_OPENABLE);
+			i.setType("application/octet-stream");
 			startActivityForResult(i, REQ_PICK_FILE);
 		} else if (method.equals("manual")) {
 			mStep = STEP_MANUAL_ENTRY;
@@ -375,8 +373,7 @@ public class ImportActivity extends Activity
 			}
 		} else if (requestCode == REQ_PICK_FILE) {
 			if (resultCode == Activity.RESULT_OK) {
-				String path = intent.getStringExtra(FileSelect.RESULT_DATA);
-				tryImport(Uri.fromFile(new File(path)).toString());
+				tryImport(intent.getDataString());
 			}
 		}
 	}

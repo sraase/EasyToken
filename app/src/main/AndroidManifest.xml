@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.easytoken">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -23,10 +22,6 @@
 
         <activity
             android:name=".BareActivity" >
-        </activity>
-
-        <activity
-            android:name="de.blinkt.openvpn.FileSelect" >
         </activity>
 
         <activity

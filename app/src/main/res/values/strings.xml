@@ -75,7 +75,7 @@
     <string name="select_token_source">Please select a token source:</string>
     <string name="input_uri">I have an \'http\' link or \'sdtid\' file attachment in my email.</string>
     <string name="input_qr">I have a QR barcode.</string>
-    <string name="input_browse">I copied an \'sdtid\' file to my Android device over USB.</string>
+    <string name="input_browse">I have an \'sdtid\' file.</string>
     <string name="input_manual">Manual entry or paste from clipboard.</string>
 
     <string name="import_uri_help">To import an \"sdtid\" XML file that is attached to an email, click on the attachment and select \"Import token\".  If that doesn\'t work, you can copy it to external storage via USB and then directly import the file.\n\nTo import a link in any of these formats, click on the blue underlined link from your email client and then select \"Import token\":</string>
@@ -108,19 +108,4 @@
     <string name="import_confirm">Import this token?</string>
     <string name="current_token">Current token:</string>
     <string name="replacement_token">Replacement token:</string>
-
-    <!-- FileDialog -->
-    <string name="clear">Clear</string>
-    <string name="no_data">No Data</string>
-    <string name="make_selection_inline">Copy into profile</string>
-    <string name="select_file">Select</string>
-    <string name="file_icon">file icon</string>
-    <string name="location">Location</string>
-    <string name="cant_read_folder">Unable to read directory</string>
-    <string name="file_explorer_tab">File Explorer</string>
-    <string name="inline_file_tab">Inline File</string>
-    <string name="file_too_large">File is too large</string>
-    <string name="error_importing_file">Error importing File</string>
-    <string name="import_error_message">Could not import File from filesystem</string>
-
 </resources>
