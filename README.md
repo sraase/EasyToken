@@ -34,7 +34,7 @@ On the host side you'll need to install:
 * Android SDK 33 (use Android Studio to install)
 * Android NDK r25b, nominally under /opt/android-ndk-r25b
 * Host-side gcc, make, etc. (Red Hat "Development Tools" group or Debian build-essential)
-* git, autoconf, automake, and libtool
+* git, autoconf, automake, libtool, pkg-config, ant
 
 First, clone the source trees:
 
